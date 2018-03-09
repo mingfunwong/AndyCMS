@@ -33,3 +33,7 @@ var ckeditor_setting = {toolbar :
             ['Source','Maximize']
         ],height:400
 }
+
+CKEDITOR.editorConfig = function( config ) {
+ config.font_names = '微软雅黑;宋体;黑体;仿宋_GB2312;楷体_GB2312;隶书;幼圆;'+ config.font_names ;
+};
