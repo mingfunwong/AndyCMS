@@ -25,15 +25,11 @@ var ckeditor_setting = {toolbar :
             //图片    flash    表格       水平线         特殊字符        框架
             ['SImage', 'Flash','Table','HorizontalRule','SpecialChar','Iframe'],
             '/',
-            // 样式       格式      字体    字体大小
-            ['Styles','Format','Font','FontSize'],
+            // 样式       格式      字体    字体大小  行高
+            ['Styles','Format','Font','FontSize', 'lineheight'],
             //文本颜色     背景颜色
             ['TextColor','BGColor'],
             //源代码     全屏               
             ['Source','Maximize']
         ],height:400
 }
-
-CKEDITOR.editorConfig = function( config ) {
- config.font_names = '微软雅黑;宋体;黑体;仿宋;楷体;隶书;幼圆;'+ config.font_names ;
-};

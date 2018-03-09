@@ -106,7 +106,7 @@ ALTER TABLE `{DBPREFIX}_roles`
 
 ALTER TABLE `{DBPREFIX}_sessions`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `last_activity_idx` (`last_activity`);
+  ADD KEY `last_activity_idx` (`timestamp`);
 
 ALTER TABLE `{DBPREFIX}_throttles`
   ADD PRIMARY KEY (`id`);
