@@ -35,5 +35,5 @@ var ckeditor_setting = {toolbar :
 }
 
 CKEDITOR.editorConfig = function( config ) {
- config.font_names = '微软雅黑;宋体;黑体;仿宋_GB2312;楷体_GB2312;隶书;幼圆;'+ config.font_names ;
+ config.font_names = '微软雅黑;宋体;黑体;仿宋;楷体;隶书;幼圆;'+ config.font_names ;
 };
