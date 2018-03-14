@@ -14,8 +14,8 @@
 
 var ckeditor_setting = {toolbar :
         [
-            //   加粗     斜体，     下划线      穿过线      下标字        上标字
-            ['Bold','Italic','Underline','Strike','Subscript','Superscript'],
+            //  撤销   重做    加粗     斜体，     下划线      穿过线      下标字        上标字
+            ['Undo', 'Redo', 'Bold','Italic','Underline','Strike','Subscript','Superscript'],
             // 数字列表          实体列表            减小缩进    增大缩进
             ['NumberedList','BulletedList','-','Outdent','Indent'],
             //左对 齐             居中对齐          右对齐          两端对齐
