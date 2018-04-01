@@ -99,9 +99,9 @@ CKEDITOR.plugins.add( 'simage', {
 								newLine = CKEDITOR.dom.element.createFromHtml('<p><br></p>')
 								if (editor.config.srcSet){
 									srcSet = editor.config.srcSet(data)
-									imgElem = '<img src="' + url + '" height="' + height + '" width="' + width + '">'
+									imgElem = '<img src="' + url + '">'
 								} else{
-									imgElem = '<img src="' + url + '" height="' + height + '" width="' + width + '">'
+									imgElem = '<img src="' + url + '">'
 								}
 								imgDomElem = CKEDITOR.dom.element.createFromHtml(imgElem)
 								// elem.append(imgDomElem)

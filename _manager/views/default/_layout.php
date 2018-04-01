@@ -6,6 +6,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="img/apple-icon.png" />
     <link rel="icon" type="image/png" href="img/favicon.png" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
 	<title><?php echo setting('manager_name'); ?></title>
 	<base href="<?php echo base_url().'templates/manager/'; ?>" />
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
