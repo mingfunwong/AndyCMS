@@ -152,7 +152,7 @@ class Settings {
         $CI = $this->_ci;
         $CI->load->helper('file');
         $cached_fieldtypes = array();
-        $cached_fieldtypes['fieldtypes'] = array('checkbox' => '复选框(VARCHAR)', 'checkbox_from_model' => '复选框(模型数据)(VARCHAR)', 'content' => '内容模型调用(INT)', 'datetime' => '日期时间(VARCHAR)', 'float' => '浮点型(FLOAT)', 'input' => '单行文本框(VARCHAR)', 'int' => '整数(INT)', 'radio' => '单选按钮(VARCHAR)', 'radio_from_model' => '单选按钮(模型数据)(INT)', 'select' => '下拉菜单(VARCHAR)', 'select_from_model' => '下拉菜单(模型数据)(INT)', 'textarea' => '文本区域(VARCHAR)', 'wysiwyg' => '编辑器(TEXT)');
+        $cached_fieldtypes['fieldtypes'] = array('checkbox' => '复选框(VARCHAR)', 'checkbox_from_model' => '复选框(模型数据)(VARCHAR)', 'content' => '内容模型调用(INT)', 'datetime' => '日期时间(VARCHAR)', 'float' => '浮点型(FLOAT)', 'input' => '单行文本框(VARCHAR)', 'int' => '整数(INT)', 'radio' => '单选按钮(VARCHAR)', 'radio_from_model' => '单选按钮(模型数据)(INT)', 'select' => '下拉菜单(VARCHAR)', 'select_from_model' => '下拉菜单(模型数据)(INT)', 'textarea' => '文本区域(TEXT)', 'wysiwyg' => '编辑器(TEXT)');
         $cached_fieldtypes['extra_fieldtypes'] = array();
         $extra_path = APPPATH . 'libraries/fields/';
         $extra_files = get_filenames($extra_path);

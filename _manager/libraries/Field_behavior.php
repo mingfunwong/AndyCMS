@@ -110,9 +110,9 @@ class Field_behavior {
                 case 'checkbox_from_model':
                 case 'datetime':
                 case 'colorpicker':
-                case 'textarea':
                     $field = array('type' => 'VARCHAR', 'constraint' => 255, 'default' => '');
                 break;
+                case 'textarea':
                 case 'wysiwyg':
                     $field = array('type' => 'TEXT');
                 break;

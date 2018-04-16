@@ -4,7 +4,7 @@ class LoadPhpquery {
 
     function init()
     {
-        require dirname(__FILE__) . "/Phpquery/phpQuery.php";
+        require_once dirname(__FILE__) . "/Phpquery/phpQuery.php";
     }
 }
 
