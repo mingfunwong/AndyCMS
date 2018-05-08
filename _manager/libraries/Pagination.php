@@ -323,10 +323,10 @@ class CI_Pagination {
 		$output = preg_replace("#([^:])//+#", "\\1/", $output);
 
 		// Add the wrapper HTML if exists
-		$text = "当前第{$this->cur_page}页，共{$num_pages}页，共有{$this->total_rows}条记录";
+		$text = "<p>当前第{$this->cur_page}页，共{$num_pages}页，共有{$this->total_rows}条记录</p>";
 		$input = "<span style='margin: 0 10px;'><input type='text' name='' value='{$this->cur_page}' style='width: 30px' id='input_pager_number' /><input type='button' value='跳转' id='input_pager_submit' /></span><script>var base_url = '{$this->base_url}';var prefix = '{$this->prefix}';var suffix = '{$this->suffix}';var num_pages = {$num_pages};var per_page = {$this->per_page};$('#input_pager_submit').click(function (){var number = $('#input_pager_number').val(); number = parseInt(number);if (number < 1) {number = 1} if (number > per_page){number = per_page} number = (number - 1) * per_page; number = number.toString(); window.location = base_url + prefix + number + suffix;})</script>";
-		$output = "<span style='float: right;'>{$output}{$input}</span>";
-		$output = $this->full_tag_open.$text.$output.$this->full_tag_close;
+		$output = "{$output}{$input}";
+		$output = $text.$this->full_tag_open.$output.$this->full_tag_close;
 
 		// If our item count or per-page total is zero there is no need to continue.
 		if ($this->total_rows == 0 OR $this->per_page == 0)
