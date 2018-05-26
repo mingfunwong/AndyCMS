@@ -212,7 +212,7 @@ h2.title{margin-bottom:30px}
 .sidebar .sidebar-wrapper .navbar-form,
 .off-canvas-sidebar .sidebar-wrapper .navbar-form{border:none}
 .sidebar .sidebar-wrapper .nav [data-toggle="collapse"]~div>ul>li>a,
-.off-canvas-sidebar .sidebar-wrapper .nav [data-toggle="collapse"]~div>ul>li>a{padding-left:50px}
+.off-canvas-sidebar .sidebar-wrapper .nav [data-toggle="collapse"]~div>ul>li>a{padding-left:50px;padding-right: 5px;}
 .sidebar .sidebar-wrapper .nav .caret,
 .off-canvas-sidebar .sidebar-wrapper .nav .caret{margin-top:13px;position:absolute;right:18px}
 .sidebar .logo-tim,
@@ -222,7 +222,7 @@ h2.title{margin-bottom:30px}
 .sidebar .nav,
 .off-canvas-sidebar .nav{margin-top:20px}
 .sidebar .nav li>a,
-.off-canvas-sidebar .nav li>a{margin:10px 15px 0;border-radius:3px;color:#3C4858}
+.off-canvas-sidebar .nav li>a{margin: 10px 0 0 15px;border-radius:3px;color:#3C4858;}
 .sidebar .nav li:first-child>a,
 .off-canvas-sidebar .nav li:first-child>a{margin:0 15px}
 .sidebar .nav li:hover>a,
