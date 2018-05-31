@@ -69,7 +69,8 @@ class field_file {
             echo '<label>' . $field['ruledescription'] . '</label>';
         }
         if ($default) {
-            echo '<p>当前文件：<a target="_blank" href="' . $default . '">' . $default . '</a></p>';
+            echo '<p>当前文件：<a target="_blank" href="' . $default . '">' . $default . '</a>';
+            echo ' <label><input type="checkbox" name="' . $field['name'] . '_delete" value="true" >删除</label></p>';
         }
     }
     /**
@@ -127,6 +128,11 @@ class field_file {
      * @return  void
      */
     public function on_do_post($field, &$post) {
+    	// 删除文件
+    	if (isset($_POST[$field['name'] . '_delete']) && $_POST[$field['name'] . '_delete'] == 'true') {
+    		$post[$field['name']] = '';
+    	}
+
         if (!$_FILES[$field['name']]['error']) {
             $CI = & get_instance();
             $CI->load->helper('date');
