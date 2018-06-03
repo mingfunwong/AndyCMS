@@ -40,6 +40,8 @@ class Settings {
      *
      */
     private $_setting_paths = array();
+    // 模型
+    private $model_mdl = array();
     /**
      * 构造函数
      *
@@ -50,6 +52,8 @@ class Settings {
         $this->_ci = & get_instance();
         $this->_ci->load->database();
         $this->_setting_paths = array(APPPATH . 'settings/');
+        $this->_ci->load->model('model_mdl');
+        $this->model_mdl = $this->_ci->model_mdl;
         $this->setting['plugins'] = $this->load_plugins();
         $this->setting['models'] = $this->load_model();
         $this->setting = array_merge($this->setting, $this->load_fieldtypes());
@@ -111,7 +115,13 @@ class Settings {
     // 内容菜单
     function load_content_menus() {
         $CI = $this->_ci;
-        $level_2_menus = $CI->db->select(" 'content' AS class_name, 'view' AS 'method_name', name AS model, description AS menu_name, icon", FALSE)->order_by('order asc, id asc')->get($CI->db->dbprefix('_models'))->result_array();
+        $level_2_menus = $this->model_mdl->get_models();
+        foreach ($level_2_menus as $key => $value) {
+            $level_2_menus[$key]->class_name = 'content';
+            $level_2_menus[$key]->method_name = 'view';
+            $level_2_menus[$key]->model = $level_2_menus[$key]->name;
+            $level_2_menus[$key]->menu_name = $level_2_menus[$key]->description;
+        }
         $content_menus = array('menu_name' => '内容管理', 'sub_menus' => $level_2_menus, 'icon' => 'fa-navicon');
         return $content_menus;
     }
@@ -121,7 +131,7 @@ class Settings {
         $CI->load->helper('file');
         $cached_plugins = array();
         $plugins = array();
-        foreach (get_dir_file_info(APPPATH . 'plugins') as $key => $value) {
+        foreach (get_dir_file_info(APPPATH . '_plugins') as $key => $value) {
             if ($value['name'] != 'index.html') {
                 $plugins[] = $value['name'];
             }
@@ -131,8 +141,8 @@ class Settings {
                 if (!isset($cached_plugins[$plugin])) {
                     $cached_plugins[$plugin] = array('classmap' => array(), 'menus' => array(),);
                 }
-                $this_plugin_path = APPPATH . 'plugins/' . $plugin . '/';
-                $this_hook_path = 'plugins/' . $plugin . '/hooks/';
+                $this_plugin_path = APPPATH . '_plugins/' . $plugin . '/';
+                $this_hook_path = '_plugins/' . $plugin . '/hooks/';
                 if (file_exists($this_plugin_path . 'hooks')) {
                     foreach (glob($this_plugin_path . 'hooks/' . $plugin . "_hook_*.php") as $filename) {
                         $filename = basename($filename);
@@ -170,18 +180,20 @@ class Settings {
     function load_model() {
         $CI = $this->_ci;
         $data = array();
-        $models = $CI->db->get($CI->db->dbprefix('_models'))->result_array();
+        $models = $this->model_mdl->get_models();
         foreach ($models as $model) {
+            $model = (array) $model;
             $model['fields'] = array();
-            $model['fields_org'] = $CI->db->where('model', $model['id'])->order_by('`order`', 'ASC')->get($CI->db->dbprefix('_model_fields'))->result_array();
+            $model['fields_org'] = $this->model_mdl->get_model_fields($model['name']);
             $model['listable'] = array();
             $model['searchable'] = array();
             foreach ($model['fields_org'] as $key => & $v) {
+                $v = (array) $v;
                 if ($v['listable'] == 1) {
-                    array_push($model['listable'], $v['id']);
+                    array_push($model['listable'], $v['name']);
                 }
                 if ($v['searchable'] == 1) {
-                    array_push($model['searchable'], $v['id']);
+                    array_push($model['searchable'], $v['name']);
                 }
                 if (in_array($v['type'], array('select', 'checkbox', 'radio'))) {
                     if ($v['values'] == '') {
@@ -199,7 +211,7 @@ class Settings {
                         $v['values'] = $value;
                     }
                 }
-                $model['fields'][$v['id']] = $v;
+                $model['fields'][$v['name']] = $v;
             }
             unset($model['fields_org']);
             $data[$model['name']] = $model;

@@ -8,10 +8,8 @@
         <ul class="nav">
             <?php 
 	            $left_menus = $this->acl->left_menus();
-	            // 如果内容管理超过6个，那么首页首页就缩起来
-	            if (count(from(from($left_menus, 1), 'sub')) > 6) :
-		            $value = $left_menus[0]['sub'][0];
-	            	unset($left_menus[0]);
+	            $value = $left_menus[0]['sub'][0];
+            	unset($left_menus[0]);
             ?>
             <li class="<?php echo $value['active'] ? "active" : "" ?>">
                 <a href="<?php echo $value['url'] ?>">
@@ -19,7 +17,7 @@
                     <p><?php echo $value['name'] ?></p>
                 </a>
             </li>
-            <?php endif; foreach($left_menus as $key => $value) :  ?>
+            <?php foreach($left_menus as $key => $value) :  ?>
                     <li>
                         <a data-toggle="collapse" href="#<?php echo $key ?>" class="" aria-expanded="true">
                             <i class="fa <?php echo $value['icon'] ?>" aria-hidden="true"></i>

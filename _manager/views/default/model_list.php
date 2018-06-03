@@ -24,15 +24,15 @@
                     <td><?php echo $v->name; ?></td>
                     <td><i class="fa <?php echo $v->icon; ?>" aria-hidden="true"></i> <?php echo $v->description; ?></td>
                     <td>
-                        <a class="btn btn-info btn-simple btn-xs" href="<?php echo backend_url('model/fields/'.$v->id); ?>">
+                        <a class="btn btn-info btn-simple btn-xs" href="<?php echo backend_url('model/fields/'.$v->name); ?>">
                             <i class="fa fa-th-list" aria-hidden="true"></i>
                             <span>字段管理</span>
                         </a>
-                    	<a class="btn btn-primary btn-simple btn-xs" href="<?php echo backend_url('model/edit/'.$v->id); ?>">
+                    	<a class="btn btn-primary btn-simple btn-xs" href="<?php echo backend_url('model/edit/'.$v->name); ?>">
                             <i class="material-icons">edit</i>
                             <span>编辑</span>
                         </a>
-                        <a class="btn btn-danger btn-simple btn-xs confirm_delete" href="<?php echo backend_url('model/del/'.$v->id); ?>">
+                        <a class="btn btn-danger btn-simple btn-xs confirm_delete" href="<?php echo backend_url('model/del/'.$v->name); ?>">
                             <i class="material-icons">close</i>
                             <span>删除</span>
                         </a>
