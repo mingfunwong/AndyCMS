@@ -207,7 +207,6 @@ class Content extends Admin_Controller {
         $this->_check_permit();
         $ids = $this->input->get_post('id', TRUE);
         $model = $this->input->get('model', TRUE);
-        $model_id = $this->db->select('id')->where('name', $model)->get($this->db->dbprefix('_models'))->row()->id;
         if ($ids) {
             if (!is_array($ids)) {
                 $ids = array($ids);

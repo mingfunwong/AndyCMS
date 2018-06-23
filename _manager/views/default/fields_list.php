@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header" data-background-color="blue">
         <h4 class="title"> <?php echo $bread ?> 
-            <a href="<?php echo backend_url($this->uri->rsegment(1).'/add_field/'.$model->id); ?>" class="btn btn-warning btn-xs">
+            <a href="<?php echo backend_url($this->uri->rsegment(1).'/add_field/'.$model->name); ?>" class="btn btn-warning btn-xs">
                 <i class="material-icons">add</i>
                 <span>增加</span>
             </a>
@@ -28,11 +28,11 @@
                     <td><?php echo $v->description; ?></td>
                     <td><?php echo isset($fieldtypes[$v->type]) ? $fieldtypes[$v->type] : '未知';?></td>
                     <td>
-                    	<a class="btn btn-primary btn-simple btn-xs" href="<?php echo backend_url($this->uri->rsegment(1).'/edit_field/'.$v->id); ?>">
+                    	<a class="btn btn-primary btn-simple btn-xs" href="<?php echo backend_url($this->uri->rsegment(1).'/edit_field/'.$model->name.'/'.$v->name); ?>">
                             <i class="material-icons">edit</i>
                             <span>编辑</span>
                         </a>
-                        <a class="btn btn-danger btn-simple btn-xs confirm_delete" href="<?php echo backend_url($this->uri->rsegment(1).'/del_field/'.$v->id); ?>">
+                        <a class="btn btn-danger btn-simple btn-xs confirm_delete" href="<?php echo backend_url($this->uri->rsegment(1).'/del_field/'.$model->name.'/'.$v->name); ?>">
                             <i class="material-icons">close</i>
                             <span>删除</span>
                         </a>

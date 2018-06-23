@@ -52,7 +52,7 @@ $config['index_page'] = 'manager';
 |
 | WARNING: If you set this to 'PATH_INFO', URIs will always be URL-decoded!
 */
-$_SERVER['REQUEST_URI'] = str_replace('/' . $config['index_page'], '', $_SERVER['REQUEST_URI']);
+$_SERVER['REQUEST_URI'] = preg_replace("`/{$config['index_page']}`", '', $_SERVER['REQUEST_URI'], 1);
 $config['uri_protocol']	= 'REQUEST_URI';
 
 /*

@@ -4,6 +4,10 @@
  * CMS 内容模型操作模型
  */
 class Model_mdl extends CI_Model {
+
+    // 模型目录
+    public $models_dir = APPPATH . "_models/";
+
     /**
      * 构造函数
      *
@@ -22,19 +26,13 @@ class Model_mdl extends CI_Model {
      * @return  object
      */
     public function get_models() {
-        return $this->db->get($this->db->order_by('`order`', 'ASC')->dbprefix('_models'))->result();
-    }
-    // ------------------------------------------------------------------------
-    
-    /**
-     * 根据内容模型id获取内容模型
-     *
-     * @access  public
-     * @param   int
-     * @return  object
-     */
-    public function get_model_by_id($id) {
-        return $this->db->where('id', $id)->get($this->db->dbprefix('_models'))->row();
+        $models = array();
+        foreach(glob($this->models_dir . "*.json") as $key => $value) {
+            $model = json_decode(file_get_contents($value));
+            $models[$model->order . "-" . $model->name] = $model;
+        }
+        ksort($models);
+        return $models;
     }
     // ------------------------------------------------------------------------
     
@@ -46,7 +44,12 @@ class Model_mdl extends CI_Model {
      * @return  object
      */
     public function get_model_by_name($name) {
-        return $this->db->where('name', $name)->get($this->db->dbprefix('_models'))->row();
+        $file_path = $this->models_dir . $name . ".json";
+        if (file_exists($file_path)) {
+            return json_decode(file_get_contents($file_path));
+        } else {
+            return array();
+        }
     }
     // ------------------------------------------------------------------------
     
@@ -58,7 +61,8 @@ class Model_mdl extends CI_Model {
      * @return  bool
      */
     public function add_new_model($data) {
-        if ($this->db->insert($this->db->dbprefix('_models'), $data)) {
+        $file_path = $this->models_dir . $data['name'] . ".json";
+        if (file_put_contents($file_path, json_encode($data))) {
             $this->load->dbforge();
             $table = '' . $data['name'];
             $this->dbforge->drop_table($table, TRUE);
@@ -82,7 +86,10 @@ class Model_mdl extends CI_Model {
      * @return  bool
      */
     public function edit_model($target_model, $data) {
-        if ($this->db->where('id', $target_model->id)->update($this->db->dbprefix('_models'), $data)) {
+        $file_path = $this->models_dir . $data['name'] . ".json";
+        $model = $this->get_model_by_name($data['name']);
+        $data['fields'] = $model->fields;
+        if (file_put_contents($file_path, json_encode($data))) {
             $this->load->dbforge();
             $old_table_name = $target_model->name;
             if ($old_table_name != $data['name']) {
@@ -104,11 +111,10 @@ class Model_mdl extends CI_Model {
     public function del_model($model) {
         $this->load->dbforge();
         //删除表
-        $this->dbforge->drop_table('' . $model->name, true);
+        $this->dbforge->drop_table($model->name, true);
         //删除字段
-        $this->db->where('model', $model->id)->delete($this->db->dbprefix('_model_fields'));
-        //删除记录
-        $this->db->where('id', $model->id)->delete($this->db->dbprefix('_models'));
+        $file_path = $this->models_dir . $model->name . ".json";
+        unlink($file_path);
     }
     // ------------------------------------------------------------------------
     
@@ -119,8 +125,16 @@ class Model_mdl extends CI_Model {
      * @param   int
      * @return  object
      */
-    public function get_model_fields($id) {
-        return $this->db->where('model', $id)->order_by('order', 'ASC')->get($this->db->dbprefix('_model_fields'))->result();
+    public function get_model_fields($name) {
+        $model = $this->get_model_by_name($name);
+        $fields = array();
+        if (isset($model->fields)) {
+            foreach ($model->fields as $key => $value) {
+                $fields[$value->order . "-" . $value->name] = $value;
+            }
+        }
+        ksort($fields);
+        return $fields;
     }
     // ------------------------------------------------------------------------
     
@@ -135,8 +149,12 @@ class Model_mdl extends CI_Model {
     public function add_field($model, $data) {
         $this->load->dbforge();
         $this->load->library('field_behavior');
-        $data['model'] = $model->id;
-        if ($this->db->insert($this->db->dbprefix('_model_fields'), $data)) {
+
+        $file_path = $this->models_dir . $model->name . ".json";
+        $model = $this->get_model_by_name($model->name);
+        $model->fields[] = $data;
+
+        if (file_put_contents($file_path, json_encode($model))) {
             $this->dbforge->add_column('' . $model->name, $this->field_behavior->on_info($data));
             return TRUE;
         }
@@ -145,42 +163,25 @@ class Model_mdl extends CI_Model {
     // ------------------------------------------------------------------------
     
     /**
-     * 根据字段id获取字段信息
-     *
-     * @access  public
-     * @param   int
-     * @return  object
-     */
-    public function get_field_by_id($id) {
-        return $this->db->where('id', $id)->get($this->db->dbprefix('_model_fields'))->row();
-    }
-    // ------------------------------------------------------------------------
-    
-    /**
      * 根据字段name获取字段信息
      *
      * @access  public
-     * @param   string
-     * @return  object
-     */
-    public function get_field_by_name($name) {
-        return $this->db->where('name', $name)->get($this->db->dbprefix('_model_fields'))->row();
-    }
-    // ------------------------------------------------------------------------
-    
-    /**
-     * 检查字段name唯一性
-     *
-     * @access  public
      * @param   int
-     * @param   string
      * @return  object
      */
-    public function check_field_unique($model, $name) {
-        return $this->db->where('model', $model)->where('name', $name)->get($this->db->dbprefix('_model_fields'))->row();
+    public function get_field_by_name($model_name, $field_name) {
+        $fields = array();
+        $model = $this->get_model_by_name($model_name);
+        if (isset($model->fields)) {
+            foreach ($model->fields as $key => $value) {
+                $fields[$value->name] = $value;
+            }
+        }
+
+        return isset($fields[$field_name]) ? $fields[$field_name] : array();
     }
     // ------------------------------------------------------------------------
-    
+
     /**
      * 修改内容模型字段信息
      *
@@ -195,8 +196,22 @@ class Model_mdl extends CI_Model {
         $this->load->dbforge();
         $this->load->library('field_behavior');
         $old_name = $field->name;
-        if ($this->db->where('id', $field->id)->update($this->db->dbprefix('_model_fields'), $data)) {
-            $this->dbforge->modify_column('' . $model->name, $this->field_behavior->on_info($data, $old_name));
+
+        $file_path = $this->models_dir . $model->name . ".json";
+        $model = $this->get_model_by_name($model->name);
+        $fields = array();
+        if (isset($model->fields)) {
+            foreach ($model->fields as $key => $value) {
+                if ($value->name != $old_name) {
+                    $fields[$value->name] = $value;
+                }
+            }
+            $fields[$field->name] = $data;
+        }
+        $model->fields = $fields;
+
+        if (file_put_contents($file_path, json_encode($model))) {
+            $this->dbforge->modify_column($model->name, $this->field_behavior->on_info($data, $old_name));
             return TRUE;
         }
         return FALSE;
@@ -214,8 +229,22 @@ class Model_mdl extends CI_Model {
     //删除内容模型字段
     public function del_field($model, $field) {
         $this->load->dbforge();
-        $this->dbforge->drop_column('' . $model->name, $field->name);
-        $this->db->where('id', $field->id)->delete($this->db->dbprefix('_model_fields'));
+        $this->dbforge->drop_column($model->name, $field->name);
+        $this->db->where('id', $field->name)->delete($this->db->dbprefix('_model_fields'));
+
+        $file_path = $this->models_dir . $model->name . ".json";
+        $model = $this->get_model_by_name($model->name);
+        $fields = array();
+        if (isset($model->fields)) {
+            foreach ($model->fields as $key => $value) {
+                if ($value->name != $field->name)
+                $fields[$value->name] = $value;
+            }
+        }
+        $model->fields = $fields;
+
+        file_put_contents($file_path, json_encode($model));
+
     }
     // ------------------------------------------------------------------------
     

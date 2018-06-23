@@ -95,7 +95,7 @@ class Model extends Admin_Controller {
      * @return  string
      */
     public function del($id = 0) {
-        $model = $this->model_mdl->get_model_by_id($id);
+        $model = $this->model_mdl->get_model_by_name($id);
         if ($model) {
             $this->model_mdl->del_model($model);
             $this->_message('内容模型删除完成！', 'model/view', TRUE);
@@ -113,7 +113,7 @@ class Model extends Admin_Controller {
      * @return  string
      */
     public function _edit_post($id = 0) {
-        $target_model = $this->model_mdl->get_model_by_id($id);
+        $target_model = $this->model_mdl->get_model_by_name($id);
         !$target_model AND $this->_message('不存在的内容模型!', '', FALSE);
         if ($this->_validate_model_form($target_model->name) == TRUE) {
             $old_table_name = $target_model->name;
@@ -126,7 +126,7 @@ class Model extends Admin_Controller {
             $data['level'] = $this->input->post('level', TRUE);
             $data['icon'] = $this->input->post('icon', TRUE);
             $this->model_mdl->edit_model($target_model, $data);
-            $this->_message('内容模型修改成功!', 'model/edit/' . $target_model->id, TRUE);
+            $this->_message('内容模型修改成功!', 'model/edit/' . $target_model->name, TRUE);
         } else {
             $data['model'] = $target_model;
             $data['bread'] = make_bread(Array('内容模型管理' => site_url('model/view'), $target_model->description => '',));
@@ -185,7 +185,7 @@ class Model extends Admin_Controller {
      * @return  void
      */
     public function fields($id = 0) {
-        $data['model'] = $this->model_mdl->get_model_by_id($id);
+        $data['model'] = $this->model_mdl->get_model_by_name($id);
         !$data['model'] AND $this->_message('不存在的内容模型!', '', FALSE);
         $data['list'] = $this->model_mdl->get_model_fields($id);
         $data['bread'] = make_bread(Array('内容模型管理' => site_url('model/view'), $data['model']->description => '',));
@@ -201,8 +201,8 @@ class Model extends Admin_Controller {
      * @param   int
      * @return  void
      */
-    public function add_field($id = 0) {
-        $this->_add_field_post($id);
+    public function add_field($model_name) {
+        $this->_add_field_post($model_name);
     }
     // ------------------------------------------------------------------------
     
@@ -213,15 +213,15 @@ class Model extends Admin_Controller {
      * @param   int
      * @return  void
      */
-    public function _add_field_post($id = 0) {
-        $data['model'] = $this->model_mdl->get_model_by_id($id);
+    public function _add_field_post($model_name) {
+        $data['model'] = $this->model_mdl->get_model_by_name($model_name);
         !$data['model'] AND $this->_message('不存在的内容模型!', '', FALSE);
-        if (!$this->_validate_field_form($id)) {
-            $data['bread'] = make_bread(Array('内容模型管理' => site_url('model/view'), $data['model']->description => site_url('model/fields/' . $data['model']->id), '添加字段' => '',));
+        if (!$this->_validate_field_form($model_name)) {
+            $data['bread'] = make_bread(Array('内容模型管理' => site_url('model/view'), $data['model']->description => site_url('model/fields/' . $data['model']->name), '添加字段' => '',));
             $this->_template('fields_add', $data);
         } else {
             $this->model_mdl->add_field($data['model'], $this->_get_post_data());
-            $this->_message('内容模型字段添加成功!', 'model/add_field/' . $id, TRUE);
+            $this->_message('内容模型字段添加成功!', 'model/add_field/' . $model_name, TRUE);
         }
     }
     // ------------------------------------------------------------------------
@@ -233,8 +233,8 @@ class Model extends Admin_Controller {
      * @param   int
      * @return  void
      */
-    public function edit_field($id = 0) {
-        $this->_edit_field_post($id);
+    public function edit_field($model_name, $field_name = 0) {
+        $this->_edit_field_post($model_name, $field_name);
     }
     // ------------------------------------------------------------------------
     
@@ -245,16 +245,16 @@ class Model extends Admin_Controller {
      * @param   int
      * @return  void
      */
-    public function _edit_field_post($id = 0) {
-        $data['field'] = $this->model_mdl->get_field_by_id($id);
+    public function _edit_field_post($model_name, $field_name) {
+        $data['field'] = $this->model_mdl->get_field_by_name($model_name, $field_name);
         !$data['field'] AND $this->_message('不存在的内容字段!', '', FALSE);
-        $data['model'] = $this->model_mdl->get_model_by_id($data['field']->model);
+        $data['model'] = $this->model_mdl->get_model_by_name($model_name);
         !$data['model'] AND $this->_message('不存在的内容模型!', '', FALSE);
-        if ($this->_validate_field_form($data['field']->model, $data['field']->name)) {
+        if ($this->_validate_field_form($model_name, $data['field']->name)) {
             $this->model_mdl->edit_field($data['model'], $data['field'], $this->_get_post_data());
-            $this->_message('内容模型字段修改成功!', 'model/edit_field/' . $id, TRUE);
+            $this->_message('内容模型字段修改成功!', 'model/edit_field/' . $model_name . '/' . $this->input->post('name', TRUE), TRUE);
         } else {
-            $data['bread'] = make_bread(Array('内容模型管理' => site_url('model/view'), $data['model']->description => site_url('model/fields/' . $data['model']->id), '编辑字段' => '',));
+            $data['bread'] = make_bread(Array('内容模型管理' => site_url('model/view'), $data['model']->description => site_url('model/fields/' . $data['model']->name), '编辑字段' => '',));
             $this->_template('fields_edit', $data);
         }
     }
@@ -267,15 +267,15 @@ class Model extends Admin_Controller {
      * @param   int
      * @return  void
      */
-    public function del_field($id = 0) {
-        $field = $this->model_mdl->get_field_by_id($id);
+    public function del_field($model_name, $field_name) {
+        $field = $this->model_mdl->get_field_by_name($model_name, $field_name);
         !$field AND $this->_message('不存在的内容字段!', '', FALSE);
-        $model = $this->model_mdl->get_model_by_id($field->model);
+        $model = $this->model_mdl->get_model_by_name($model_name);
         !$model AND $this->_message('不存在的内容模型!', '', FALSE);
         if ($field AND $model) {
             $this->model_mdl->del_field($model, $field);
         }
-        $this->_message('字段删除成功!', 'model/fields/' . $model->id, TRUE);
+        $this->_message('字段删除成功!', 'model/fields/' . $model->name, TRUE);
     }
     // ------------------------------------------------------------------------
     
@@ -287,7 +287,7 @@ class Model extends Admin_Controller {
      * @return  bool
      */
     public function _check_field_name($name) {
-        if ($this->model_mdl->check_field_unique($this->model, $name)) {
+        if ($this->model_mdl->get_field_by_name($this->model, $name)) {
             $this->form_validation->set_message('_check_field_name', '已经存在的字段标识！');
             return FALSE;
         } else {

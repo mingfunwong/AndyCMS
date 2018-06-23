@@ -108,6 +108,7 @@ class Acl {
         $content_menus = $this->ci->settings->load_content_menus();
         $model = $this->ci->input->get('model');
         foreach ($content_menus['sub_menus'] as $jkey => & $j) {
+            $j = (array) $j;
             if ($j['class_name'] == $class_name AND $j['model'] == $model) {
                 $j['current'] = TRUE;
             }

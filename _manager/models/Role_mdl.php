@@ -4,6 +4,7 @@
  * CMS 用户组操作模型
  */
 class Role_mdl extends CI_Model {
+
     /**
      * 构造函数
      *
@@ -12,6 +13,7 @@ class Role_mdl extends CI_Model {
      */
     public function __construct() {
         parent::__construct();
+        $this->load->model('model_mdl');
     }
     // ------------------------------------------------------------------------
     
@@ -76,7 +78,7 @@ class Role_mdl extends CI_Model {
      */
     public function get_form_data() {
         $data['rights'] = array('role' => '用户组管理', 'user' => '用户管理',);
-        $data['models'] = $this->_re_parse_array($this->db->select('name,description')->get($this->db->dbprefix('_models'))->result(), 'name', 'description');
+        $data['models'] = $this->_re_parse_array($this->model_mdl->get_models(), 'name', 'description');
         return $data;
     }
     // ------------------------------------------------------------------------

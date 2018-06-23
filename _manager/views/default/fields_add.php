@@ -1,5 +1,5 @@
 <div class="card">
-    <?php echo form_open('model/add_field/'.$model->id, array("class" => 'form-horizontal')); ?>
+    <?php echo form_open('model/add_field/'.$model->name, array("class" => 'form-horizontal')); ?>
         <div class="card-header card-header-text" data-background-color="purple">
             <h4 class="title"> <?php echo $bread ?> </h4>
         </div>

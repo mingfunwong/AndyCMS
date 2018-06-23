@@ -1,6 +1,6 @@
 
 <div class="card">
-    <?php echo form_open('model/edit_field/'.$field->id, array("class" => 'form-horizontal')); ?>
+    <?php echo form_open('model/edit_field/'.$model->name.'/'.$field->name, array("class" => 'form-horizontal')); ?>
         <div class="card-header card-header-text" data-background-color="purple">
             <h4 class="title"> <?php echo $bread ?> </h4>
         </div>

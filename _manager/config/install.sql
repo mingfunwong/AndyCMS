@@ -21,43 +21,6 @@ CREATE TABLE `{DBPREFIX}_admins` (
   `status` tinyint(1) UNSIGNED DEFAULT 1 COMMENT '1=正常，2=冻结'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `{DBPREFIX}_models` (
-  `id` smallint(10) UNSIGNED NOT NULL,
-  `name` varchar(20) NOT NULL,
-  `description` varchar(50) NOT NULL,
-  `import` tinyint(4) DEFAULT NULL,
-  `export` tinyint(4) DEFAULT NULL,
-  `single` tinyint(4) DEFAULT NULL,
-  `level` tinyint(4) DEFAULT NULL,
-  `icon` varchar(50) DEFAULT NULL,
-  `order` int(5) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-INSERT INTO `{DBPREFIX}_models` (`id`, `name`, `description`, `import`, `export`, `single`, `level`, `icon`, `order`) VALUES
-(1, 'system', '系统设置', NULL, NULL, 1, NULL, 'fa-cog', 0);
-
-
-CREATE TABLE `{DBPREFIX}_model_fields` (
-  `id` mediumint(10) UNSIGNED NOT NULL,
-  `name` varchar(20) NOT NULL,
-  `description` varchar(40) NOT NULL,
-  `model` smallint(10) UNSIGNED NOT NULL DEFAULT 0,
-  `type` varchar(20) DEFAULT NULL,
-  `values` tinytext DEFAULT NULL,
-  `rules` tinytext DEFAULT NULL,
-  `ruledescription` tinytext DEFAULT NULL,
-  `searchable` tinyint(1) UNSIGNED DEFAULT NULL,
-  `listable` tinyint(1) UNSIGNED DEFAULT NULL,
-  `order` int(5) UNSIGNED DEFAULT NULL,
-  `editable` tinyint(1) UNSIGNED DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-INSERT INTO `{DBPREFIX}_model_fields` (`id`, `name`, `description`, `model`, `type`, `values`, `rules`, `ruledescription`, `searchable`, `listable`, `order`, `editable`) VALUES
-(1, 'name', '站点名称', 1, 'input', '', 'required', '', 1, 1, 10, 1),
-(2, 'manager_name', '后台网页标题', 1, 'input', '', 'required', '', 1, 1, 20, 1),
-(3, 'attachment_dir', '文件上传路径', 1, 'input', '', '', '', 1, 1, 30, NULL);
-
 CREATE TABLE `{DBPREFIX}_roles` (
   `id` int(11) NOT NULL,
   `name` varchar(20) NOT NULL,
