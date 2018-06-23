@@ -1518,7 +1518,7 @@ select.form-control[multiple],
 .table>tfoot>tr>th,
 .table>thead>tr>td,
 .table>tbody>tr>td,
-.table>tfoot>tr>td{padding:12px 8px;vertical-align:middle}
+.table>tfoot>tr>td{padding:12px 8px;vertical-align:middle;white-space: normal;word-break: break-all;}
 .table>thead>tr>th{padding-bottom:4px}
 .table .td-actions{display:flex}
 .table .td-actions .btn{margin:0px;padding:5px}
