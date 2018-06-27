@@ -21,6 +21,41 @@ CREATE TABLE `{DBPREFIX}_admins` (
   `status` tinyint(1) UNSIGNED DEFAULT 1 COMMENT '1=正常，2=冻结'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `{DBPREFIX}_models` (
+  `name` varchar(20) NOT NULL,
+  `description` varchar(50) NOT NULL,
+  `import` tinyint(4) DEFAULT NULL,
+  `export` tinyint(4) DEFAULT NULL,
+  `single` tinyint(4) DEFAULT NULL,
+  `level` tinyint(4) DEFAULT NULL,
+  `icon` varchar(50) DEFAULT NULL,
+  `order` int(5) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO `{DBPREFIX}_models` (`name`, `description`, `import`, `export`, `single`, `level`, `icon`, `order`) VALUES
+('system', '系统设置', NULL, NULL, 1, NULL, 'fa-cog', 0);
+
+
+CREATE TABLE `{DBPREFIX}_model_fields` (
+  `name` varchar(20) NOT NULL,
+  `description` varchar(40) NOT NULL,
+  `model` varchar(20) NOT NULL,
+  `type` varchar(20) DEFAULT NULL,
+  `values` tinytext DEFAULT NULL,
+  `rules` tinytext DEFAULT NULL,
+  `ruledescription` tinytext DEFAULT NULL,
+  `searchable` tinyint(1) UNSIGNED DEFAULT NULL,
+  `listable` tinyint(1) UNSIGNED DEFAULT NULL,
+  `order` int(5) UNSIGNED DEFAULT NULL,
+  `editable` tinyint(1) UNSIGNED DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `{DBPREFIX}_model_fields` (`name`, `description`, `model`, `type`, `values`, `rules`, `ruledescription`, `searchable`, `listable`, `order`, `editable`) VALUES
+('name', '站点名称', 'system', 'input', '', 'required', '', 1, 1, 10, 1),
+('manager_name', '后台网页标题', 'system', 'input', '', 'required', '', 1, 1, 20, 1),
+('attachment_dir', '文件上传路径', 'system', 'input', '', '', '', 1, 1, 30, NULL);
+
 CREATE TABLE `{DBPREFIX}_roles` (
   `id` int(11) NOT NULL,
   `name` varchar(20) NOT NULL,
@@ -55,11 +90,9 @@ ALTER TABLE `{DBPREFIX}_admins`
   ADD KEY `group` (`role`);
 
 ALTER TABLE `{DBPREFIX}_models`
-  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`);
 
 ALTER TABLE `{DBPREFIX}_model_fields`
-  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`,`model`),
   ADD KEY `model` (`model`);
 
@@ -79,12 +112,6 @@ ALTER TABLE `{DBPREFIX}system`
 
 ALTER TABLE `{DBPREFIX}_admins`
   MODIFY `uid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `{DBPREFIX}_models`
-  MODIFY `id` smallint(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
-ALTER TABLE `{DBPREFIX}_model_fields`
-  MODIFY `id` mediumint(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 ALTER TABLE `{DBPREFIX}_roles`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;

@@ -126,7 +126,7 @@ class Model extends Admin_Controller {
             $data['level'] = $this->input->post('level', TRUE);
             $data['icon'] = $this->input->post('icon', TRUE);
             $this->model_mdl->edit_model($target_model, $data);
-            $this->_message('内容模型修改成功!', 'model/edit/' . $target_model->name, TRUE);
+            $this->_message('内容模型修改成功!', 'model/edit/' . $data['name'], TRUE);
         } else {
             $data['model'] = $target_model;
             $data['bread'] = make_bread(Array('内容模型管理' => site_url('model/view'), $target_model->description => '',));
