@@ -26,11 +26,11 @@
                     <td><?php echo $v->status == 1 ? '正常' : '冻结'; ?></td>
                     <td><?php echo $v->memo; ?></td>
                     <td>
-                    	<a class="btn btn-primary btn-simple btn-xs" href="<?php echo backend_url('user/edit/'.$v->id); ?>">
+                    	<a class="btn btn-primary btn-simple btn-xs" href="<?php echo backend_url('user/edit/'.$v->uid); ?>">
                             <i class="material-icons">edit</i>
                             <span>编辑</span>
                         </a>
-                        <a class="btn btn-danger btn-simple btn-xs confirm_delete" href="<?php echo backend_url('user/del/'.$v->id); ?>">
+                        <a class="btn btn-danger btn-simple btn-xs confirm_delete" href="<?php echo backend_url('user/del/'.$v->uid); ?>">
                             <i class="material-icons">close</i>
                             <span>删除</span>
                         </a>
