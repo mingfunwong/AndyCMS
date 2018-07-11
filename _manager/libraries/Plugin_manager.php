@@ -20,10 +20,14 @@ class Plugin_manager {
             $this->plugins = $setting['plugins'];
             unset($setting['plugins']);
         }
-        if ($this->app->uri->rsegment(1) == 'category_content' || $this->app->uri->rsegment(1) == 'content') {
+        if ($this->app->uri->rsegment(1) == 'content') {
             $model = $this->app->input->get('model', true);
             //重新分析classmap，加入autoloader
             foreach ($this->plugins as $name => $plugin) {
+                if (isset($plugin['classmap']['GLOBAL'])) {
+                    $filename = $name . '_hook_GLOBAL';
+                    $this->classmap[$filename] = $plugin['classmap']['GLOBAL'];
+                }
                 foreach ($plugin['classmap'] as $filename => $hook) {
                     if ($model == $filename) {
                         $filename = ($name . '_hook_' . $model);
@@ -56,7 +60,7 @@ class Plugin_manager {
                 $this->autoloader($class);
                 $this->instances[$class] = new $class;
             }
-            return call_user_func_array(array($this->instances[$class], $method), $args);
+            call_user_func_array(array($this->instances[$class], $method), $args);
         }
     }
     public function get_menus() {
