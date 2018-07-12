@@ -17,7 +17,7 @@
     </head>
     <body>
         <div class="page-container">
-        	<<?php $this->load->view("{$theme}/{$tpl}") ?>
+        	<?php $this->load->view("{$theme}/{$tpl}") ?>
         </div>
     </body>
 </html>
