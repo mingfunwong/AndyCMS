@@ -22,8 +22,8 @@ var ckeditor_setting = {toolbar :
             ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
             //超链接  取消超链接 锚点
             ['Link','Unlink','Anchor'],
-            //图片    flash    表格       水平线         特殊字符        框架
-            ['SImage', 'Flash','Table','HorizontalRule','SpecialChar','Iframe'],
+            //图片    flash   视频  表格       水平线         特殊字符        框架
+            ['SImage', 'Image', 'Html5video', 'Flash','Table','HorizontalRule','SpecialChar','Iframe'],
             '/',
             // 样式       格式      字体    字体大小  行高
             ['Styles','Format','Font','FontSize', 'lineheight'],

@@ -9,14 +9,10 @@
         config.imageUploadURL = "<?php echo backend_url('attachment/save'); ?>?field=file&responseType=json";
         config.removePlugins = 'elementspath';
         config.resize_enabled = false;
-        config.extraPlugins = 'simage,lineheight';
+        config.extraPlugins = 'simage,lineheight,html5video';
         config.allowedContent = true;
         config.font_names = '微软雅黑;宋体;黑体;仿宋;楷体;隶书;幼圆;'+ config.font_names ;
-        
-
-
         config.dataParser = function(data) {return data.url};
-
     };
 </script>
 

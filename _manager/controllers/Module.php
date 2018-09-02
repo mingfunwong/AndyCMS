@@ -20,7 +20,7 @@ class Module extends Admin_Controller {
         $this->_check_permit();
         $controller = $this->input->get('c', true);
         $method = $this->input->get('m', TRUE);
-        $path = APPPATH . 'plugins/' . $plugin . '/controllers/' . $plugin . '_' . $controller . '.php';
+        $path = APPPATH . '_plugins/' . $plugin . '/controllers/' . $plugin . '_' . $controller . '.php';
         if ($controller and file_exists($path)) {
             include $path;
             $controller = ucfirst($plugin . '_' . $controller);

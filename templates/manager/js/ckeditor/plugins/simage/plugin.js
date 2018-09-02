@@ -12,11 +12,11 @@ CKEDITOR.plugins.add( 'simage', {
 					file = a.files[0];
 					$(CKEDITOR.currentInstance).trigger('enableFormSubmit')
 					curr = CKEDITOR.currentInstance
-					if (file.size > 5000000){
+					if (file.size > 50000000){
 						b = document.createElement('div')
 						b.className = 'message alert alert-danger'
 						m = document.createElement('span')
-						m.innerHTML = "Image size exceeded! Please upload image of less than 5 MB."
+						m.innerHTML = "Image size exceeded! Please upload image of less than 50 MB."
 						b.appendChild(m)
 						c = document.createElement('span')
 						c.className = 'close'

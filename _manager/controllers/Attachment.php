@@ -56,11 +56,12 @@ class Attachment extends Admin_Controller {
     }
     function mkhtml($fn, $fileurl, $message) {
         $responseType = $this->input->get('responseType');
-        if ($responseType == 'json') {
-            $str = json_encode(array('uploaded' => 1, 'url' => $fileurl));
-        } else {
-            $str = '<script type="text/javascript">window.parent.CKEDITOR.tools.callFunction(' . $fn . ', \'' . $fileurl . '\', \'' . $message . '\');</script>';
-        }
+        $str = json_encode(array('uploaded' => 1, 'url' => $fileurl));
+        // if ($responseType == 'json') {
+        //     $str = json_encode(array('uploaded' => 1, 'url' => $fileurl));
+        // } else {
+        //     $str = '<script type="text/javascript">window.parent.CKEDITOR.tools.callFunction(' . $fn . ', \'' . $fileurl . '\', \'' . $message . '\');</script>';
+        // }
         exit($str);
     }
 }
