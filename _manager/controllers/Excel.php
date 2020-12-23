@@ -36,6 +36,8 @@ class Excel extends Admin_Controller {
             foreach ($data['model']['fields'] as $key2 => $val2) {
                 if (isset($val->$val2['name'])) {
                     $list[] = $this->field_behavior->on_list($val2, $val);
+                } else {
+                    $list[] = '';
                 }
             }
             $array[] = $list;
