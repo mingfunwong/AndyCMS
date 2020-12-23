@@ -212,7 +212,7 @@ h2.title{margin-bottom:30px}
 .sidebar .sidebar-wrapper .navbar-form,
 .off-canvas-sidebar .sidebar-wrapper .navbar-form{border:none}
 .sidebar .sidebar-wrapper .nav [data-toggle="collapse"]~div>ul>li>a,
-.off-canvas-sidebar .sidebar-wrapper .nav [data-toggle="collapse"]~div>ul>li>a{padding-left:50px;padding-right: 5px;}
+.off-canvas-sidebar .sidebar-wrapper .nav [data-toggle="collapse"]~div>ul>li>a{padding-left:50px;padding-right: 5px;margin-right:15px;}
 .sidebar .sidebar-wrapper .nav .caret,
 .off-canvas-sidebar .sidebar-wrapper .nav .caret{margin-top:13px;position:absolute;right:18px}
 .sidebar .logo-tim,
