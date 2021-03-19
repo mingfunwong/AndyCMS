@@ -99,7 +99,7 @@ class Excel extends Admin_Controller {
             $count = count($value);
             for ($p = 0;$p < $count;$p++) { //列
                 $skey = PHPExcel_Cell::stringFromColumnIndex($p) . ($l + 1); // 生成行列索引
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($skey, $value[$p]);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($skey, $value[$p], PHPExcel_Cell_DataType::TYPE_STRING);
                 // 首行加粗
                 if ($l == 0) $objPHPExcel->setActiveSheetIndex(0)->getStyle($skey)->getFont()->setBold(true);
             }
